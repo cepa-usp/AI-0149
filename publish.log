@@ -1,0 +1,18 @@
+Copying from /c/Users/Luciano Lucena/Documents/PROJETOS/UNIVESP/GitHub/AI-0149 to cepa@arquivos.atp.usp.br:/work/PUBLICACAO/atividades-interativas/AI-0149
+building file list ... done
+created directory /work/PUBLICACAO/atividades-interativas/AI-0149
+./
+AI-0149_SCO.zip
+imsmanifest.xml
+index.html
+js/
+js/ai.js
+js/jquery-1.4.2.min.js
+js/scorm_wrapper.min.js
+js/swfobject.js
+swf/
+swf/AI-0149.swf
+swf/AI_Loader.swf
+
+sent 400296 bytes  received 192 bytes  800976.00 bytes/sec
+total size is 399598  speedup is 1.00

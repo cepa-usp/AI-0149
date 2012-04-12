@@ -14,7 +14,7 @@ function init () {
   // Insere o filme Flash na página HTML
   // ATENÇÃO: os callbacks registrados via ExternalInterface no Main.swf levam algum tempo para ficarem disponíveis para o Javascript. Por isso não é possível chamá-los imediatamente após a inserção do filme Flash na página HTML.  
 	var flashvars = {};
-	flashvars.ai = "swf/AI-0148.swf";
+	flashvars.ai = "swf/AI-0149.swf";
 	flashvars.width = "700";
 	flashvars.height = "669";
 	
@@ -26,7 +26,7 @@ function init () {
 	attributes.id = "ai";
 	attributes.align = "middle";
 
-	swfobject.embedSWF("swf/AI-0148.swf", "ai-container", flashvars.width, flashvars.height, "10.0.0", "expressInstall.swf", flashvars, params, attributes);
+	swfobject.embedSWF("swf/AI-0149.swf", "ai-container", flashvars.width, flashvars.height, "10.0.0", "expressInstall.swf", flashvars, params, attributes);
 	
 	memento = fetch();
 }
@@ -42,7 +42,7 @@ function fetch() {
 	session.standalone = !session.connected;
 	
 	if (session.standalone) {
-		var stream = localStorage.getItem("AI-0148-memento");
+		var stream = localStorage.getItem("AI-0149-memento");
 		if (stream != null)
 			ans = JSON.parse(stream);
 	} else {
@@ -71,10 +71,10 @@ function fetch() {
 }
 
 function save2LS(str) {
-	localStorage.setItem("AI-0148-memento", str);
+	localStorage.setItem("AI-0149-memento", str);
 }
 
 function getLocalStorageString() {
-	var stream = localStorage.getItem("AI-0148-memento");
+	var stream = localStorage.getItem("AI-0149-memento");
 	return stream;
 }
