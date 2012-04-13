@@ -59,6 +59,7 @@
 		private var lastCaixa3;
 		private var lastCaixa4;
 		private var grupoAtual:int;
+		private var dictRespostas:Dictionary;
 		
 		public function Main() 
 		{
@@ -171,14 +172,14 @@
 				//this["caixa" + String(i)].texto.text = String(i);
 			}
 			
-			for (i = 1; i <= 5; i++ ) {
+			for (i = 1; i <= 8; i++ ) {
 				this["grupo" + String(i)].buttonMode = true;
 				this["grupo" + String(i)].addEventListener(MouseEvent.MOUSE_OVER, mouseOver);
 				this["grupo" + String(i)].addEventListener(MouseEvent.MOUSE_OUT, mouseOut);
 				this["grupo" + String(i)].addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
 			}
 			
-			for (i = 1; i <= 20; i++ ) {
+			for (i = 1; i <= 18; i++ ) {
 				this["caixa" + String(i)].visible = false;
 				setChildIndex(this["caixa" + String(i)], 1);
 			}
@@ -202,7 +203,7 @@
 			grupo.visible = true;
 			grupo.gotoAndStop(grupoAtual);
 			
-			for (var i:int = 1; i <= 20; i++) this["caixa" + String(i)].visible = false;
+			for (var i:int = 1; i <= 18; i++) this["caixa" + String(i)].visible = false;
 			
 			if (lastGrupo != 0) {
 				if (thumbnailDict[dictCaixa[caixasGruposDict[lastGrupo][0]]] != null) thumbnailDict[dictCaixa[caixasGruposDict[lastGrupo][0]]].visible = false;
@@ -231,9 +232,11 @@
 		
 		private function mouseOut(e:MouseEvent):void 
 		{
-			for (var i:int = 1; i <= 20; i++) this["caixa" + String(i)].visible = false;
+			for (var i:int = 1; i <= 18; i++) this["caixa" + String(i)].visible = false;
 			if (thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][0]]] != null) thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][0]]].visible = false;
 			if (thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][1]]] != null) thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][1]]].visible = false;
+			if (thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][2]]] != null) thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][2]]].visible = false;
+			if (thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][3]]] != null) thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][3]]].visible = false;
 			
 			if (lastCaixa1 != null) {
 				lastCaixa1.visible = true;
@@ -269,7 +272,7 @@
 				lastCaixa2 = null;
 				lastCaixa3 = null;
 				lastCaixa4 = null;
-				for (var i:int = 1; i <= 20; i++) this["caixa" + String(i)].visible = false;
+				for (var i:int = 1; i <= 18; i++) this["caixa" + String(i)].visible = false;
 				if (thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][0]]] != null) thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][0]]].visible = false;
 				if (thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][1]]] != null) thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][1]]].visible = false;
 				if (thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][2]]] != null) thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][2]]].visible = false;
@@ -377,11 +380,34 @@
 			imageDict[imagem18] = thumbnail18;
 			
 			caixasGruposDict = new Dictionary();
-			caixasGruposDict[1] = [caixa1, caixa2, caixa3, caixa4];
-			caixasGruposDict[2] = [caixa5, caixa6, caixa7, caixa8];
-			caixasGruposDict[3] = [caixa9, caixa10, caixa11, caixa12];
-			caixasGruposDict[4] = [caixa13, caixa14, caixa15, caixa16];
-			caixasGruposDict[5] = [caixa17, caixa18];
+			caixasGruposDict[1] = [caixa18];
+			caixasGruposDict[2] = [caixa13];
+			caixasGruposDict[3] = [caixa16, caixa17];
+			caixasGruposDict[4] = [caixa14, caixa15];
+			caixasGruposDict[5] = [caixa1, caixa2, caixa3, caixa4];
+			caixasGruposDict[6] = [caixa10, caixa11, caixa12];
+			caixasGruposDict[7] = [caixa5, caixa6, caixa7, caixa8];
+			caixasGruposDict[8] = [caixa9];
+			
+			dictRespostas = new Dictionary();
+			dictRespostas[caixa1] = [thumbnail1, thumbnail2, thumbnail3, thumbnail4, thumbnail8];
+			dictRespostas[caixa2] = [thumbnail1, thumbnail2, thumbnail3, thumbnail4, thumbnail8];
+			dictRespostas[caixa3] = [thumbnail1, thumbnail2, thumbnail3, thumbnail4, thumbnail8];
+			dictRespostas[caixa4] = [thumbnail1, thumbnail2, thumbnail3, thumbnail4, thumbnail8];
+			dictRespostas[caixa5] = [thumbnail5, thumbnail6, thumbnail7, thumbnail8, thumbnail4];
+			dictRespostas[caixa6] = [thumbnail5, thumbnail6, thumbnail7, thumbnail8, thumbnail4];
+			dictRespostas[caixa7] = [thumbnail5, thumbnail6, thumbnail7, thumbnail8, thumbnail4];
+			dictRespostas[caixa8] = [thumbnail5, thumbnail6, thumbnail7, thumbnail8, thumbnail4];
+			dictRespostas[caixa9] = [thumbnail9];
+			dictRespostas[caixa10] = [thumbnail12, thumbnail11, thumbnail10];
+			dictRespostas[caixa11] = [thumbnail12, thumbnail11, thumbnail10];
+			dictRespostas[caixa12] = [thumbnail12, thumbnail11, thumbnail10];
+			dictRespostas[caixa13] = [thumbnail13];
+			dictRespostas[caixa14] = [thumbnail14, thumbnail15];
+			dictRespostas[caixa15] = [thumbnail14, thumbnail15];
+			dictRespostas[caixa16] = [thumbnail16, thumbnail17];
+			dictRespostas[caixa17] = [thumbnail16, thumbnail17];
+			dictRespostas[caixa18] = [thumbnail18];			
 			
 			dictImage = new Dictionary();
 			dictCaixa = new Dictionary();
@@ -478,6 +504,8 @@
 			
 			lastCaixa1 = null;
 			lastCaixa2 = null;
+			lastCaixa3 = null;
+			lastCaixa4 = null;
 			
 			grupo.visible = false;
 			
@@ -503,7 +531,7 @@
 				this["imagem" + String(i)].visible = false;
 			}
 			
-			for (i = 1; i <= 20; i++) {
+			for (i = 1; i <= 18; i++) {
 				this["caixa" + String(i)].visible = false;
 			}
 			
@@ -752,7 +780,7 @@
 		{
 			acertos = 0;
 			//for (var i:int = 1; i <= 7; i++) this["texto" + String(i)].visible = false;
-			for (var i:int = 1; i <= 18; i++) if (dictCaixa[this["caixa" + String(i)]] == this["thumbnail" + String(i)]) {
+			for (var i:int = 1; i <= 18; i++) if (dictRespostas[this["caixa" + String(i)]].indexOf(dictCaixa[this["caixa" + String(i)]]) != -1) {
 				acertos++;
 				//if (textDict[this["caixa" + String(i)]] != null) textDict[this["caixa" + String(i)]].visible = true;
 			}
