@@ -21,6 +21,7 @@
 	import flash.text.TextField;
 	import flash.ui.Keyboard;
 	import flash.utils.Dictionary;
+	import flash.utils.setTimeout;
 	import flash.utils.Timer;
 	import pipwerks.SCORM;
 	/**
@@ -418,6 +419,118 @@
 		private function saveAIStatus():void
 		{
 			var object:Object = new Object();
+			object.thumbs = new Object();
+			object.caixas = new Object();
+			object.imagens = new Object();
+			
+			// Transforma os Dictionary em Object
+			for (var i:int = 1; i <= 18; i++) 
+			{
+				var thumb:MovieClip = this["thumbnail" + String(i)];
+				object.thumbs[thumb.name] = new Object();
+				if (dictImage[thumb] != null) object.thumbs[thumb.name].caixa = dictImage[thumb].name;
+				else object.thumbs[thumb.name].caixa = "null";
+				object.thumbs[thumb.name].visible = thumb.visible;
+				object.thumbs[thumb.name].x = thumb.x;
+				object.thumbs[thumb.name].y = thumb.y;
+				
+				var caixa:MovieClip = this["caixa" + String(i)];
+				object.caixas[caixa.name] = new Object();
+				if (dictCaixa[caixa] != null) object.caixas[caixa.name].image = dictCaixa[caixa].name;
+				else object.caixas[caixa.name].image = "null";
+				object.caixas[caixa.name].visible = caixa.visible;
+				object.caixas[caixa.name].x = caixa.x;
+				object.caixas[caixa.name].y = caixa.y;
+				
+				var image:MovieClip = this["imagem" + String(i)];
+				object.imagens[image.name] = new Object();
+				object.imagens[image.name].visible = image.visible;
+				object.imagens[image.name].x = image.x;
+				object.imagens[image.name].y = image.y;
+			}
+			
+			// Transforma o Array "alvosUsados" num Object
+			var strAlvosUsados:String = "";
+			for (i = 0; i < alvosUsados.length; i++) 
+			{
+				if (i == alvosUsados.length - 1) strAlvosUsados += (alvosUsados[i].name);
+				else strAlvosUsados += (alvosUsados[i].name + ";");
+			}
+			
+			object.alvosUsados = strAlvosUsados;
+			object.movimentos = movimentos;
+			object.acertos = acertos;
+			object.lastGrupo = lastGrupo;
+			object.grupoAtual = grupoAtual;
+			object.grupoVisible = grupo.visible;
+			if (lastCaixa1 != null) object.lastCaixa1 = lastCaixa1.name;
+			else object.lastCaixa1 = "null";
+			if (lastCaixa2 != null) object.lastCaixa2 = lastCaixa2.name;
+			else object.lastCaixa2 = "null";
+			if (lastCaixa3 != null) object.lastCaixa3 = lastCaixa3.name;
+			else object.lastCaixa3 = "null";
+			if (lastCaixa4 != null) object.lastCaixa4 = lastCaixa4.name;
+			else object.lastCaixa4 = "null";
+			
+			statusAI = object;
+			mementoSerialized = JSON.encode(statusAI);
+			
+			saveStatus();
+		}
+		
+		private function restoreAIStatus(e:MouseEvent):void
+		{
+			statusAI = JSON.decode(mementoSerialized);
+			alvosUsados.splice(0);
+			
+			// Transforma o Object "statusAI" em um Dictionary
+			for (var i:int = 1; i <= 18; i++) 
+			{
+				var thumb:MovieClip = this["thumbnail" + String(i)];
+				var caixa:MovieClip = this["caixa" + String(i)];
+				var image:MovieClip = this["imagem" + String(i)];
+				
+				if (statusAI.thumbs[thumb.name].caixa != "null") dictImage[thumb] = this[statusAI.thumbs[thumb.name].caixa];
+				thumb.visible = statusAI.thumbs[thumb.name].visible;
+				thumb.x = statusAI.thumbs[thumb.name].x;
+				thumb.y = statusAI.thumbs[thumb.name].y;
+				
+				if (statusAI.caixas[caixa.name].image != "null") dictCaixa[caixa] = this[statusAI.caixas[caixa.name].image];
+				caixa.visible = statusAI.caixas[caixa.name].visible;
+				caixa.x = statusAI.caixas[caixa.name].x;
+				caixa.y = statusAI.caixas[caixa.name].y;
+				
+				image.visible = statusAI.imagens[image.name].visible;
+				image.x = statusAI.imagens[image.name].x;
+				image.y = statusAI.imagens[image.name].y;
+				
+			}
+			
+			// Transforma o Object "statusAI.alvosUsados" em um Array
+			var arrayAlvos:Array = String(statusAI.alvosUsados).split(";");
+			for (i = 0; i < arrayAlvos.length; i++) 
+			{
+				alvosUsados.push(this[arrayAlvos[i]]);
+			}
+			
+			movimentos = statusAI.movimentos;
+			acertos = statusAI.acertos;
+			lastGrupo = int(statusAI.lastGrupo);
+			grupoAtual = int(statusAI.grupoAtual);
+			grupo.visible = statusAI.grupoVisible;
+			if (statusAI.lastCaixa1 != "null") lastCaixa1 = this[statusAI.lastCaixa1];
+			if (statusAI.lastCaixa2 != "null") lastCaixa2 = this[statusAI.lastCaixa2];
+			if (statusAI.lastCaixa3 != "null") lastCaixa3 = this[statusAI.lastCaixa3];
+			if (statusAI.lastCaixa4 != "null") lastCaixa4 = this[statusAI.lastCaixa4];
+			grupo.gotoAndStop(grupoAtual);
+			setChildIndex(grupo, 0);
+			
+			verifyAICompletion();
+		}
+		
+/*		private function saveAIStatus():void
+		{
+			var object:Object = new Object();
 			
 			// Transforma o Dictionary "dictImage" num Object
 			for (var i:int = 1; i <= 18; i++) 
@@ -497,7 +610,7 @@
 			
 			verifyAICompletion();
 		}
-		
+*/		
 		private function reset(e:MouseEvent):void 
 		{
 			movimentos = acertos = lastGrupo = grupoAtual = 0;
@@ -762,7 +875,7 @@
 			
 			caixa_origem = null;
 			
-			saveAIStatus();
+			setTimeout(saveAIStatus, 0.3 * 1000);
 		}
 		
 		private function verifyAICompletion():void
