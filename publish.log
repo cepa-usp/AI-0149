@@ -1,6 +1,9 @@
 Copying from /c/Users/Luciano Lucena/Documents/PROJETOS/UNIVESP/GitHub/AI-0149 to cepa@arquivos.atp.usp.br:/work/PUBLICACAO/atividades-interativas/AI-0149
 building file list ... done
+./
+AI-0149_SCO.zip
+js/ai.js
 swf/AI-0149.swf
 
-sent 106789 bytes  received 1135 bytes  71949.33 bytes/sec
-total size is 401338  speedup is 3.72
+sent 261087 bytes  received 2646 bytes  175822.00 bytes/sec
+total size is 400604  speedup is 1.52

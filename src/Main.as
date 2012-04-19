@@ -528,89 +528,6 @@
 			verifyAICompletion();
 		}
 		
-/*		private function saveAIStatus():void
-		{
-			var object:Object = new Object();
-			
-			// Transforma o Dictionary "dictImage" num Object
-			for (var i:int = 1; i <= 18; i++) 
-			{
-				var thumb:MovieClip = this["thumbnail" + String(i)];
-				if (dictImage[thumb] != null) {
-					object[thumb.name] = dictImage[thumb].name;
-					object["thumbnail" + String(i) + "Visible"] = thumb.visible;
-				}
-				
-				var caixa:MovieClip = this["caixa" + String(i)];
-				if (dictCaixa[caixa] != null) {
-					object[caixa.name] = dictCaixa[caixa].name;
-					object["caixa" + String(i) + "Visible"] = caixa.visible;
-				}
-			}
-			
-			// Transforma o Array "alvosUsados" num Object
-			var strAlvosUsados:String = "";
-			for (i = 0; i < alvosUsados.length; i++) 
-			{
-				if (i == alvosUsados.length - 1) strAlvosUsados += (alvosUsados[i].name);
-				else strAlvosUsados += (alvosUsados[i].name + ";");
-			}
-			
-			object.alvosUsados = strAlvosUsados;
-			object.movimentos = movimentos;
-			object.acertos = acertos;
-			object.lastGrupo = lastGrupo;
-			object.grupoAtual = grupoAtual;
-			object.grupoVisible = grupo.visible;
-			
-			statusAI = object;
-			mementoSerialized = JSON.encode(statusAI);
-			
-			saveStatus();
-		}
-		
-		private function restoreAIStatus(e:MouseEvent):void
-		{
-			statusAI = JSON.decode(mementoSerialized);
-			alvosUsados.splice(0);
-			
-			// Transforma o Object "statusAI" em um Dictionary
-			for (var i:int = 1; i <= 18; i++) 
-			{
-				var thumb:MovieClip = this["thumbnail" + String(i)];
-				if (statusAI[thumb.name] != null) {
-					dictImage[thumb] = this[statusAI[thumb.name]];
-					var image:MovieClip = thumbnailDict[thumb];
-					image.x = dictImage[thumb].x;
-					image.y = dictImage[thumb].y;
-					thumb.x = dictImage[thumb].x;
-					thumb.y = dictImage[thumb].y;
-					thumb.visible = statusAI["thumbnail" + String(i) + "Visible"];
-					image.visible = statusAI["caixa" + String(i) + "Visible"];
-				}
-				
-				var caixa:MovieClip = this["caixa" + String(i)];
-				if (statusAI[caixa.name] != null) {
-					dictCaixa[caixa] = this[statusAI[caixa.name]];
-				}
-			}
-			
-			// Transforma o Object "statusAI.alvosUsados" em um Array
-			var arrayAlvos:Array = String(statusAI.alvosUsados).split(";");
-			for (i = 0; i < arrayAlvos.length; i++) 
-			{
-				alvosUsados.push(this[arrayAlvos[i]]);
-			}
-			
-			movimentos = statusAI.movimentos;
-			acertos = statusAI.acertos;
-			lastGrupo = statusAI.lastGrupo;
-			grupoAtual = statusAI.grupoAtual;
-			grupo.visible = statusAI.grupoVisible;
-			
-			verifyAICompletion();
-		}
-*/		
 		private function reset(e:MouseEvent):void 
 		{
 			movimentos = acertos = lastGrupo = grupoAtual = 0;
@@ -640,6 +557,7 @@
 				this["thumbnail" + String(i)].visible = true;
 				this["thumbnail" + String(i)].x = imagePositions[i].x;
 				this["thumbnail" + String(i)].y = imagePositions[i].y;
+				this["imagem" + String(i)].x = -100;
 				this["thumbnail" + String(i)].gotoAndStop(1);
 				this["imagem" + String(i)].visible = false;
 			}
@@ -985,6 +903,7 @@
 			
 			if (connected) {
 				// Verifica se a AI já foi concluída.
+				scorm.set("cmi.exit", "suspend");
 				var status:String = scorm.get("cmi.completion_status");	
 				mementoSerialized = String(scorm.get("cmi.suspend_data"));
 				var stringScore:String = scorm.get("cmi.score.raw");
@@ -1089,6 +1008,7 @@
 			if (ExternalInterface.available) {
 				if (connected) {
 					scorm.set("cmi.suspend_data", mementoSerialized);
+					commit();
 				}else {//LocalStorage
 					ExternalInterface.call("save2LS", mementoSerialized);
 				}
