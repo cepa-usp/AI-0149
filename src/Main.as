@@ -180,7 +180,7 @@
 				this["grupo" + String(i)].addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
 			}
 			
-			for (i = 1; i <= 18; i++ ) {
+			for (i = 1; i <= 32; i++ ) {
 				this["caixa" + String(i)].visible = false;
 				setChildIndex(this["caixa" + String(i)], 1);
 			}
@@ -204,7 +204,7 @@
 			grupo.visible = true;
 			grupo.gotoAndStop(grupoAtual);
 			
-			for (var i:int = 1; i <= 18; i++) this["caixa" + String(i)].visible = false;
+			for (var i:int = 1; i <= 32; i++) this["caixa" + String(i)].visible = false;
 			
 			if (lastGrupo != 0) {
 				if (thumbnailDict[dictCaixa[caixasGruposDict[lastGrupo][0]]] != null) thumbnailDict[dictCaixa[caixasGruposDict[lastGrupo][0]]].visible = false;
@@ -233,7 +233,7 @@
 		
 		private function mouseOut(e:MouseEvent):void 
 		{
-			for (var i:int = 1; i <= 18; i++) this["caixa" + String(i)].visible = false;
+			for (var i:int = 1; i <= 32; i++) this["caixa" + String(i)].visible = false;
 			if (thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][0]]] != null) thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][0]]].visible = false;
 			if (thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][1]]] != null) thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][1]]].visible = false;
 			if (thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][2]]] != null) thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][2]]].visible = false;
@@ -273,7 +273,7 @@
 				lastCaixa2 = null;
 				lastCaixa3 = null;
 				lastCaixa4 = null;
-				for (var i:int = 1; i <= 18; i++) this["caixa" + String(i)].visible = false;
+				for (var i:int = 1; i <= 32; i++) this["caixa" + String(i)].visible = false;
 				if (thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][0]]] != null) thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][0]]].visible = false;
 				if (thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][1]]] != null) thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][1]]].visible = false;
 				if (thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][2]]] != null) thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][2]]].visible = false;
@@ -381,14 +381,14 @@
 			imageDict[imagem18] = thumbnail18;
 			
 			caixasGruposDict = new Dictionary();
-			caixasGruposDict[1] = [caixa18];
-			caixasGruposDict[2] = [caixa13];
-			caixasGruposDict[3] = [caixa16, caixa17];
-			caixasGruposDict[4] = [caixa14, caixa15];
+			caixasGruposDict[1] = [caixa18, caixa19, caixa20, caixa21];
+			caixasGruposDict[2] = [caixa13, caixa22, caixa23, caixa24];
+			caixasGruposDict[3] = [caixa16, caixa17, caixa25, caixa26];
+			caixasGruposDict[4] = [caixa14, caixa15, caixa27, caixa28];
 			caixasGruposDict[5] = [caixa1, caixa2, caixa3, caixa4];
-			caixasGruposDict[6] = [caixa10, caixa11, caixa12];
+			caixasGruposDict[6] = [caixa10, caixa11, caixa12, caixa29];
 			caixasGruposDict[7] = [caixa5, caixa6, caixa7, caixa8];
-			caixasGruposDict[8] = [caixa9];
+			caixasGruposDict[8] = [caixa9, caixa30, caixa31, caixa32];
 			
 			dictRespostas = new Dictionary();
 			dictRespostas[caixa1] = [thumbnail1, thumbnail2, thumbnail3, thumbnail4, thumbnail8];
@@ -408,7 +408,21 @@
 			dictRespostas[caixa15] = [thumbnail14, thumbnail15];
 			dictRespostas[caixa16] = [thumbnail16, thumbnail17];
 			dictRespostas[caixa17] = [thumbnail16, thumbnail17];
-			dictRespostas[caixa18] = [thumbnail18];			
+			dictRespostas[caixa18] = [thumbnail18];
+			dictRespostas[caixa19] = [thumbnail18];
+			dictRespostas[caixa20] = [thumbnail18];
+			dictRespostas[caixa21] = [thumbnail18];
+			dictRespostas[caixa22] = [thumbnail13];
+			dictRespostas[caixa23] = [thumbnail13];
+			dictRespostas[caixa24] = [thumbnail13];
+			dictRespostas[caixa25] = [thumbnail16, thumbnail17];
+			dictRespostas[caixa26] = [thumbnail16, thumbnail17];
+			dictRespostas[caixa27] = [thumbnail14, thumbnail15];
+			dictRespostas[caixa28] = [thumbnail14, thumbnail15];
+			dictRespostas[caixa29] = [thumbnail12, thumbnail11, thumbnail10];
+			dictRespostas[caixa30] = [thumbnail9];
+			dictRespostas[caixa31] = [thumbnail9];
+			dictRespostas[caixa32] = [thumbnail9];
 			
 			dictImage = new Dictionary();
 			dictCaixa = new Dictionary();
@@ -434,6 +448,15 @@
 				object.thumbs[thumb.name].x = thumb.x;
 				object.thumbs[thumb.name].y = thumb.y;
 				
+				var image:MovieClip = this["imagem" + String(i)];
+				object.imagens[image.name] = new Object();
+				object.imagens[image.name].visible = image.visible;
+				object.imagens[image.name].x = image.x;
+				object.imagens[image.name].y = image.y;
+			}
+			
+			for (i = 1; i <= 32; i++) 
+			{
 				var caixa:MovieClip = this["caixa" + String(i)];
 				object.caixas[caixa.name] = new Object();
 				if (dictCaixa[caixa] != null) object.caixas[caixa.name].image = dictCaixa[caixa].name;
@@ -441,12 +464,6 @@
 				object.caixas[caixa.name].visible = caixa.visible;
 				object.caixas[caixa.name].x = caixa.x;
 				object.caixas[caixa.name].y = caixa.y;
-				
-				var image:MovieClip = this["imagem" + String(i)];
-				object.imagens[image.name] = new Object();
-				object.imagens[image.name].visible = image.visible;
-				object.imagens[image.name].x = image.x;
-				object.imagens[image.name].y = image.y;
 			}
 			
 			// Transforma o Array "alvosUsados" num Object
@@ -487,7 +504,6 @@
 			for (var i:int = 1; i <= 18; i++) 
 			{
 				var thumb:MovieClip = this["thumbnail" + String(i)];
-				var caixa:MovieClip = this["caixa" + String(i)];
 				var image:MovieClip = this["imagem" + String(i)];
 				
 				if (statusAI.thumbs[thumb.name].caixa != "null") dictImage[thumb] = this[statusAI.thumbs[thumb.name].caixa];
@@ -495,15 +511,19 @@
 				thumb.x = statusAI.thumbs[thumb.name].x;
 				thumb.y = statusAI.thumbs[thumb.name].y;
 				
-				if (statusAI.caixas[caixa.name].image != "null") dictCaixa[caixa] = this[statusAI.caixas[caixa.name].image];
-				caixa.visible = statusAI.caixas[caixa.name].visible;
-				caixa.x = statusAI.caixas[caixa.name].x;
-				caixa.y = statusAI.caixas[caixa.name].y;
-				
 				image.visible = statusAI.imagens[image.name].visible;
 				image.x = statusAI.imagens[image.name].x;
 				image.y = statusAI.imagens[image.name].y;
 				
+			}
+			
+			for (i = 1; i <= 32; i++) 
+			{
+				var caixa:MovieClip = this["caixa" + String(i)];
+				if (statusAI.caixas[caixa.name].image != "null") dictCaixa[caixa] = this[statusAI.caixas[caixa.name].image];
+				caixa.visible = statusAI.caixas[caixa.name].visible;
+				caixa.x = statusAI.caixas[caixa.name].x;
+				caixa.y = statusAI.caixas[caixa.name].y;
 			}
 			
 			// Transforma o Object "statusAI.alvosUsados" em um Array
@@ -562,7 +582,7 @@
 				this["imagem" + String(i)].visible = false;
 			}
 			
-			for (i = 1; i <= 18; i++) {
+			for (i = 1; i <= 32; i++) {
 				this["caixa" + String(i)].visible = false;
 			}
 			
@@ -811,7 +831,7 @@
 		{
 			acertos = 0;
 			//for (var i:int = 1; i <= 7; i++) this["texto" + String(i)].visible = false;
-			for (var i:int = 1; i <= 18; i++) if (dictRespostas[this["caixa" + String(i)]].indexOf(dictCaixa[this["caixa" + String(i)]]) != -1) {
+			for (var i:int = 1; i <= 32; i++) if (dictRespostas[this["caixa" + String(i)]].indexOf(dictCaixa[this["caixa" + String(i)]]) != -1) {
 				acertos++;
 				//if (textDict[this["caixa" + String(i)]] != null) textDict[this["caixa" + String(i)]].visible = true;
 			}
@@ -827,7 +847,7 @@
 			setChildIndex(feedbackErrado, numChildren - 1);
 			
 			if(!completed){
-				score = Math.floor((100 / 18) * acertos);
+				score = Math.floor((100 / 32) * acertos);
 				completed = true;
 				commit();
 			}
@@ -842,7 +862,7 @@
 			var peca:MovieClip;
 			//alvo = null;
 			
-			loopForTest: for (var i:int = 1; i <= 18; i++) {
+			loopForTest: for (var i:int = 1; i <= 32; i++) {
 				
 				peca = this["caixa" + String(i)];
 				//if (peca == dragging) continue;
@@ -865,7 +885,7 @@
 		private function removeFilter(peca:DisplayObject):void
 		{
 			var pecaSemFiltro:DisplayObject;
-			for (var i:int = 1; i <= 18; i++) {
+			for (var i:int = 1; i <= 32; i++) {
 				pecaSemFiltro = this["caixa" + String(i)];
 				if (peca != pecaSemFiltro/* && peca is Caixa*/) (pecaSemFiltro as Caixa).filters = [];
 			}
