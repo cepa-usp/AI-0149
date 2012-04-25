@@ -101,54 +101,6 @@
 			addChild(ttreset);
 			var ttcc:ToolTip = new ToolTip(menu.creditosBtn, "Créditos", 11, 0.8, 200, 0.6, 0.1);
 			addChild(ttcc);
-			var ttThumb2:ToolTip = new ToolTip(thumbnail2, "Euglenozoa\nclorofila a, clorofila b", 11, 0.8, 200, 0.6, 0.1);
-			addChild(ttThumb2);
-			var ttThumb6:ToolTip = new ToolTip(thumbnail6, "Estramenólia\nclorofila a, clorofila c, Fu", 11, 0.8, 200, 0.6, 0.1);
-			addChild(ttThumb6);
-			var ttThumb7:ToolTip = new ToolTip(thumbnail7, "Ciliados", 11, 0.8, 200, 0.6, 0.1);
-			addChild(ttThumb7);
-			var ttThumb8:ToolTip = new ToolTip(thumbnail8, "Apicomplexos", 11, 0.8, 200, 0.6, 0.1);
-			addChild(ttThumb8);
-			var ttThumb9:ToolTip = new ToolTip(thumbnail9, "Dinoflagelados\nclorofila a, clorofila c, Pe", 11, 0.8, 200, 0.6, 0.1);
-			addChild(ttThumb9);
-			
-			/*var ttThumbnail1:ToolTip = new ToolTip(thumbnail1, "ToolTip", 0.5, 0.5);
-			addChild(ttThumbnail1);
-			var ttThumbnail2:ToolTip = new ToolTip(thumbnail2, "ToolTip", 0.5, 0.5);
-			addChild(ttThumbnail2);
-			var ttThumbnail3:ToolTip = new ToolTip(thumbnail3, "ToolTip", 0.5, 0.5);
-			addChild(ttThumbnail3);
-			var ttThumbnail4:ToolTip = new ToolTip(thumbnail4, "ToolTip", 0.5, 0.5);
-			addChild(ttThumbnail4);
-			var ttThumbnail5:ToolTip = new ToolTip(thumbnail5, "ToolTip", 0.5, 0.5);
-			addChild(ttThumbnail5);
-			var ttThumbnail6:ToolTip = new ToolTip(thumbnail6, "ToolTip", 0.5, 0.5);
-			addChild(ttThumbnail6);
-			var ttThumbnail7:ToolTip = new ToolTip(thumbnail7, "ToolTip", 0.5, 0.5);
-			addChild(ttThumbnail7);
-			var ttThumbnail8:ToolTip = new ToolTip(thumbnail8, "ToolTip", 0.5, 0.5);
-			addChild(ttThumbnail8);
-			var ttThumbnail9:ToolTip = new ToolTip(thumbnail9, "ToolTip", 0.5, 0.5);
-			addChild(ttThumbnail9);
-			
-			var ttImagem1:ToolTip = new ToolTip(imagem1, "ToolTip", 0.5, 0.5);
-			addChild(ttImagem1);
-			var ttImagem2:ToolTip = new ToolTip(imagem2, "ToolTip", 0.5, 0.5);
-			addChild(ttImagem2);
-			var ttImagem3:ToolTip = new ToolTip(imagem3, "ToolTip", 0.5, 0.5);
-			addChild(ttImagem3);
-			var ttImagem4:ToolTip = new ToolTip(imagem4, "ToolTip", 0.5, 0.5);
-			addChild(ttImagem4);
-			var ttImagem5:ToolTip = new ToolTip(imagem5, "ToolTip", 0.5, 0.5);
-			addChild(ttImagem5);
-			var ttImagem6:ToolTip = new ToolTip(imagem6, "ToolTip", 0.5, 0.5);
-			addChild(ttImagem6);
-			var ttImagem7:ToolTip = new ToolTip(imagem7, "ToolTip", 0.5, 0.5);
-			addChild(ttImagem7);
-			var ttImagem8:ToolTip = new ToolTip(imagem8, "ToolTip", 0.5, 0.5);
-			addChild(ttImagem8);
-			var ttImagem9:ToolTip = new ToolTip(imagem9, "ToolTip", 0.5, 0.5);
-			addChild(ttImagem9);*/
 			
 			feedbackCerto.botaoOK.buttonMode = true;
 			feedbackErrado.botaoOK.buttonMode = true;
@@ -595,7 +547,7 @@
 			saveAIStatus();
 		}
 		
-		var caixa_origem:DisplayObject = null;
+		var caixa_origem = null;
 		
 		
 		
@@ -612,6 +564,7 @@
 				dragging = imageDict[dragging];
 				
 				caixa_origem = dictImage[dragging];
+				alvo = caixa_origem;
 				dragging.visible = true;
 				dragging.x = mouseX;
 				dragging.y = mouseY;
@@ -638,7 +591,6 @@
 		}
 		
 		function drop(e:MouseEvent) :void {
-			trace(e.target.dropTarget);
 			dragging.alpha = 1;
 			dragging.gotoAndStop(1);
 			stage.removeEventListener(MouseEvent.MOUSE_UP, drop);
