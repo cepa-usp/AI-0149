@@ -41,7 +41,7 @@
 		private var tweenY:Tween;
 		private var tweenX2:Tween;
 		private var tweenY2:Tween;
-		private const GLOW_FILTER:GlowFilter = new GlowFilter(0x6633FF, 1, 5, 5, 2, 2);
+		private const GLOW_FILTER:GlowFilter = new GlowFilter(0xFF0000, 1, 5, 5, 2, 2);
 		private var alvo:MovieClip;
 		private var imagePositions:Array = new Array();
 		private var dictImage:Dictionary;
@@ -59,8 +59,9 @@
 		private var lastCaixa2;
 		private var lastCaixa3;
 		private var lastCaixa4;
-		private var grupoAtual:int;
+		private var grupoAtual:int = 1;
 		private var dictRespostas:Dictionary;
+		private var tempGrupo:int;
 		
 		public function Main() 
 		{
@@ -113,6 +114,8 @@
 			
 			finaliza.alpha = 0.5;
 			
+			background.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+			
 			for (var i:int = 1; i <= 18; i++ ) {
 				this["thumbnail" + String(i)].addEventListener(MouseEvent.MOUSE_DOWN, drag);
 				this["imagem" + String(i)].addEventListener(MouseEvent.MOUSE_DOWN, drag);
@@ -134,13 +137,14 @@
 			
 			for (i = 1; i <= 32; i++ ) {
 				this["caixa" + String(i)].visible = false;
-				setChildIndex(this["caixa" + String(i)], 1);
+				setChildIndex(this["caixa" + String(i)], 2);
 			}
 			
 			criaDict();
 			
-			setChildIndex(legenda, 0);
-			setChildIndex(grupo, 0);
+			setChildIndex(legenda, 1);
+			setChildIndex(grupo, 1);
+			setChildIndex(background, 0);
 			
 			if (ExternalInterface.available) {
 				initLMSConnection();
@@ -153,10 +157,16 @@
 		private function mouseOver(e:MouseEvent):void 
 		{
 			grupoAtual = int(e.target.name.slice(5, 6));
+			
+			if (grupoAtual == 0) grupoAtual = int(e.target.parent.name.slice(5, 6));
+			
 			grupo.visible = true;
 			grupo.gotoAndStop(grupoAtual);
 			
-			for (var i:int = 1; i <= 32; i++) this["caixa" + String(i)].visible = false;
+			for (var i:int = 1; i <= 8; i++) this["grupo" + String(i)].barra.filters = [];
+			this["grupo" + String(grupoAtual)].barra.filters = [GLOW_FILTER];
+			
+			for (i = 1; i <= 32; i++) this["caixa" + String(i)].visible = false;
 			
 			if (lastGrupo != 0) {
 				if (thumbnailDict[dictCaixa[caixasGruposDict[lastGrupo][0]]] != null) thumbnailDict[dictCaixa[caixasGruposDict[lastGrupo][0]]].visible = false;
@@ -185,6 +195,10 @@
 		
 		private function mouseOut(e:MouseEvent):void 
 		{
+			if (lastGrupo != grupoAtual) this["grupo" + String(grupoAtual)].barra.filters = [];
+			
+			if (lastGrupo != 0) this["grupo" + String(lastGrupo)].barra.filters = [GLOW_FILTER];
+			
 			for (var i:int = 1; i <= 32; i++) this["caixa" + String(i)].visible = false;
 			if (thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][0]]] != null) thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][0]]].visible = false;
 			if (thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][1]]] != null) thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][1]]].visible = false;
@@ -218,7 +232,10 @@
 		
 		private function mouseDown(e:MouseEvent):void 
 		{
-			if (int(e.target.name.slice(5, 6)) == lastGrupo) {  // Deselecionando o grupo
+			tempGrupo = int(e.target.name.slice(5, 6));
+			if (tempGrupo == 0) tempGrupo = int(e.target.parent.name.slice(5, 6));
+			
+			if (tempGrupo == lastGrupo || e.target is Background) {  // Deselecionando o grupo
 				grupo.visible = false;
 				lastGrupo = 0;
 				lastCaixa1 = null;
@@ -230,8 +247,10 @@
 				if (thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][1]]] != null) thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][1]]].visible = false;
 				if (thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][2]]] != null) thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][2]]].visible = false;
 				if (thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][3]]] != null) thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][3]]].visible = false;
+				for (i = 1; i <= 8; i++) this["grupo" + String(i)].barra.filters = [];
 			} else {  // Selecionando o grupo
 				lastGrupo = int(e.target.name.slice(5, 6));
+				if (lastGrupo == 0) lastGrupo = int(e.target.parent.name.slice(5, 6));
 				lastCaixa1 = caixasGruposDict[lastGrupo][0];
 				lastCaixa2 = caixasGruposDict[lastGrupo][1];
 				lastCaixa3 = caixasGruposDict[lastGrupo][2];
@@ -246,7 +265,8 @@
 				if (thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][1]]] != null) thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][1]]].visible = true;
 				if (thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][2]]] != null) thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][2]]].visible = true;
 				if (thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][3]]] != null) thumbnailDict[dictCaixa[caixasGruposDict[grupoAtual][3]]].visible = true;
-				//trace("Grupo: " + (lastGrupo) + " / Caixas: " + lastCaixa1 + " e " + lastCaixa2);
+				for (i = 1; i <= 8; i++) this["grupo" + String(i)].barra.filters = [];
+				this["grupo" + String(grupoAtual)].barra.filters = [GLOW_FILTER];
 			}
 		}
 		
@@ -495,7 +515,7 @@
 			if (statusAI.lastCaixa3 != "null") lastCaixa3 = this[statusAI.lastCaixa3];
 			if (statusAI.lastCaixa4 != "null") lastCaixa4 = this[statusAI.lastCaixa4];
 			grupo.gotoAndStop(grupoAtual);
-			setChildIndex(grupo, 0);
+			setChildIndex(grupo, 1);
 			
 			verifyAICompletion();
 		}
