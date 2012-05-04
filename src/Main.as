@@ -353,14 +353,14 @@
 			imageDict[imagem18] = thumbnail18;
 			
 			caixasGruposDict = new Dictionary();
-			caixasGruposDict[1] = [caixa18, caixa19, caixa20, caixa21];
-			caixasGruposDict[2] = [caixa13, caixa22, caixa23, caixa24];
-			caixasGruposDict[3] = [caixa16, caixa17, caixa25, caixa26];
-			caixasGruposDict[4] = [caixa14, caixa15, caixa27, caixa28];
+			caixasGruposDict[1] = [caixa18];
+			caixasGruposDict[2] = [caixa13];
+			caixasGruposDict[3] = [caixa16, caixa17];
+			caixasGruposDict[4] = [caixa14, caixa15];
 			caixasGruposDict[5] = [caixa1, caixa2, caixa3, caixa4];
-			caixasGruposDict[6] = [caixa10, caixa11, caixa12, caixa29];
+			caixasGruposDict[6] = [caixa10, caixa11, caixa12];
 			caixasGruposDict[7] = [caixa5, caixa6, caixa7, caixa8];
-			caixasGruposDict[8] = [caixa9, caixa30, caixa31, caixa32];
+			caixasGruposDict[8] = [caixa9];
 			
 			dictRespostas = new Dictionary();
 			dictRespostas[caixa1] = [thumbnail1, thumbnail2, thumbnail3, thumbnail4, thumbnail8];
@@ -556,6 +556,11 @@
 			
 			for (i = 1; i <= 32; i++) {
 				this["caixa" + String(i)].visible = false;
+				this["caixa" + String(i)].enabled = true;
+			}
+			
+			for (i = 1; i <= 8; i++) {
+				this["grupo" + String(i)].barra.filters = [];
 			}
 			
 			alvosUsados = new Array();
@@ -620,7 +625,7 @@
 			var thumbnail_origem:DisplayObject = dragging;
 			var caixa_destino:DisplayObject = alvo;
 			var caixa_destino_preenchida:Boolean = (dictCaixa[caixa_destino] != null);
-			var index:int ;
+			var index:int;
 			
 			// ORIGEM: nada (biblioteca)
 			if (caixa_origem == null) {
@@ -677,7 +682,7 @@
 				trace(dragging.name + " --> " + (dictImage[dragging] ? dictImage[dragging].name : null));
 				
 				// ORIGEM: biblioteca
-				if (dictCaixa[alvo] == null && dictImage[dragging] == null) {
+				// luciano if (dictCaixa[alvo] == null && dictImage[dragging] == null) {
 					trace("ORIGEM: biblioteca");
 					movimentos++;
 					thumbnailDict[dragging].x = alvo.x;
@@ -687,9 +692,21 @@
 					dictCaixa[alvo] = dragging;
 					dictImage[dragging] = alvo;
 					
+					// Verifica se soltou no alvo certo
+					if (dictRespostas[alvo].indexOf(dictCaixa[alvo]) != -1) {
+						alvo.enabled = false;
+						thumbnailDict[dragging].buttonMode = false;
+						thumbnailDict[dragging].removeEventListener(MouseEvent.MOUSE_DOWN, drag);
+					} else {
+						tweenX = new Tween(thumbnailDict[dragging], "x", None.easeNone, thumbnailDict[dragging].x, imagePositions[images.indexOf(dragging)].x, 0.2, true);
+						tweenY = new Tween(thumbnailDict[dragging], "y", None.easeNone, thumbnailDict[dragging].y, imagePositions[images.indexOf(dragging)].y, 0.2, true);
+						dictCaixa[alvo] = null;
+						dictImage[dragging] = null;
+						movimentos--;
+					}
 					
 				// ORIGEM: alguma caixa
-				} else {
+				/* luciano } else {
 					
 					//Alguma peça no alvo
 					if (dictImage[dragging] == null) {
@@ -769,7 +786,12 @@
 					//vindo do lugar inicial
 					tweenX = new Tween(dragging, "x", None.easeNone, dragging.x, posFinal.x, 0.2, true);
 					tweenY = new Tween(dragging, "y", None.easeNone, dragging.y, posFinal.y, 0.2, true);
-				}
+				}*/
+			} else { // luciano
+				tweenX = new Tween(dragging, "x", None.easeNone, dragging.x, imagePositions[images.indexOf(dragging)].x, 0.2, true);
+				tweenY = new Tween(dragging, "y", None.easeNone, dragging.y, imagePositions[images.indexOf(dragging)].y, 0.2, true);
+				dictCaixa[alvo] = null;
+				dictImage[dragging] = null;
 			}
 			
 			removeFilter(null);
@@ -839,7 +861,7 @@
 				peca = this["caixa" + String(i)];
 				//if (peca == dragging) continue;
 				
-				if (peca.hitTestPoint(dragging.x, dragging.y) && peca.visible) {
+				if (peca.hitTestPoint(dragging.x, dragging.y) && peca.visible && peca.enabled) {
 					if (peca.filters.length == 0) peca.filters = [GLOW_FILTER];
 					//setChildIndex(peca, Math.max(0, getChildIndex(dragging) - 1));
 					removeFilter(peca);
