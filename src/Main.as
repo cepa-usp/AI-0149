@@ -62,6 +62,7 @@
 		private var grupoAtual:int = 1;
 		private var dictRespostas:Dictionary;
 		private var tempGrupo:int;
+		private var tentativasArray:Array = new Array();
 		
 		public function Main() 
 		{
@@ -135,9 +136,11 @@
 				this["grupo" + String(i)].addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
 			}
 			
+			tentativasArray[0] = 0;
 			for (i = 1; i <= 32; i++ ) {
 				this["caixa" + String(i)].visible = false;
 				setChildIndex(this["caixa" + String(i)], 2);
+				tentativasArray[i] = 0;
 			}
 			
 			criaDict();
@@ -446,7 +449,16 @@
 				else strAlvosUsados += (alvosUsados[i].name + ";");
 			}
 			
+			// Transforma o Array "tentativasArray" num Object
+			var strTentativasArray:String = "";
+			for (i = 0; i < tentativasArray.length; i++) 
+			{
+				if (i == tentativasArray.length - 1) strTentativasArray += (String(tentativasArray[i]));
+				else strTentativasArray += (String(tentativasArray[i]) + ";");
+			}
+			
 			object.alvosUsados = strAlvosUsados;
+			object.tentativasArray = strTentativasArray;
 			object.movimentos = movimentos;
 			object.acertos = acertos;
 			object.lastGrupo = lastGrupo;
@@ -505,6 +517,14 @@
 				alvosUsados.push(this[arrayAlvos[i]]);
 			}
 			
+			// Transforma o Object "statusAI.tentativasArray" em um Array
+			var arrayTentativas:Array = String(statusAI.tentativasArray).split(";");
+			for (i = 0; i < arrayTentativas.length; i++) 
+			{
+				//tentativasArray.push(int(arrayTentativas[i]));
+				tentativasArray[i] = int(arrayTentativas[i]);
+			}
+			
 			movimentos = statusAI.movimentos;
 			acertos = statusAI.acertos;
 			lastGrupo = int(statusAI.lastGrupo);
@@ -557,6 +577,7 @@
 			for (i = 1; i <= 32; i++) {
 				this["caixa" + String(i)].visible = false;
 				this["caixa" + String(i)].enabled = true;
+				tentativasArray[i] = 0;
 			}
 			
 			for (i = 1; i <= 8; i++) {
@@ -703,6 +724,12 @@
 						dictCaixa[alvo] = null;
 						dictImage[dragging] = null;
 						movimentos--;
+						tentativasArray[int(alvo.name.slice(5, 7))]++;
+						if (tentativasArray[int(alvo.name.slice(5, 7))] >= 3) {
+							alvo.enabled = false;
+							alvo.gotoAndStop(2);
+							movimentos++;
+						}
 					}
 					
 				// ORIGEM: alguma caixa
@@ -800,10 +827,10 @@
 			
 			verifyAICompletion();
 			
-			for each (var caixa in caixas) {
+			/*for each (var caixa in caixas) {
 				if (alvosUsados.indexOf(caixa) != -1) caixa.alpha = 0;
 				else caixa.alpha = 1;
-			}
+			}*/
 			
 			caixa_origem = null;
 			
