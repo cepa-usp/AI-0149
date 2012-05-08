@@ -1,0 +1,106 @@
+Ambiente: ScormCloud
+Navegador: Google Chrome
+O.S: Windows XP
+
+CS1: Preencher todos os campos e avaliar - acertar todos 							[OK] 
+	1. Preencher todos
+	2. Botão terminar
+	3. Voltar ao ambiente e verificar variáveis SCORM
+	
+	resultado esperado:
+		cmi.score_raw: 56						NOK
+		cmi.score_min: 0						ok	
+		cmi.score_max: 100						ok
+		cmi.completion_status: completed		ok	
+		
+	Obs:
+		passo #3: Contagem só está chegando até 56
+					outra obs: nos requisitos diz que a nota vai de 0 a 10... há de se alterar algo por conta disso?
+
+*******************************************************************
+
+CS2: Rodar a atividade uma segunda vez										[NOK]
+	dependêcia: CS1
+
+	1. Lançar novamente a atividade
+			resultado esperado: ver objetos 							OK
+			reposicionados e travados
+	2. Apertar terminar
+			resultado esperado: ver mensagem sem reavaliar				OK	
+	3. Tentar mover os elementos da tela
+			resultado esperado: eles estão travados e não se moverão	NOK
+	4. Voltar ao ambiente e verificar variáveis SCORM
+			resultado esperado: igual CS1						
+			
+	OBS:
+		no passo #3 :
+			os elementos podem ser removidos de suas posições, criando situações estranhas
+	
+	
+		
+*******************************************************************
+		
+CS3: Preencher todos os campos e avaliar - errar 1 elemento					[OK]
+
+	1. Preencher todos, errando um
+	2. Botão terminar
+	3. Verificar Scorm
+	
+	resultado esperado:
+		cmi.score_raw: <100					ok
+		cmi.score_min: 0					ok
+		cmi.score_max: 100					ok
+		cmi.completion_status: completed	ok
+		
+*******************************************************************
+
+		
+CS4: Funcionamento do botão reset											[NOK]
+
+	1. Preencher todos e apertar "terminei"	
+	2. Apertar reset	
+	3. Verificar se campos foram liberados
+		resultado esperado: campos estão liberados e devem poder receber respostas válidas		nok
+	
+	
+	OBS:
+		no passo #3 :
+			- os campos marcados anteriormente com "X", ou seja, onde não se poderia mais preencher, continuam bloqueados após reset.
+			- outros campos voltam em branco, porém bloqueados também.
+		
+	
+			
+*******************************************************************		
+
+CS5: Revisão dos créditos													[OBS]
+
+	Obs.: Acrescentar "Arthur Tofani" em testes
+	
+		
+*******************************************************************
+
+CS6: Revisão das orientações												[OBS]
+	1. Leitura do texto
+	
+	Obs.: 
+	Linha 3: Está escrito "interseção". Está correto? Ou o correto seria "intersecção" ?
+	
+
+*******************************************************************		
+		
+CS7: Caixas de mensagem:													[OK]
+
+	1. Leitura do texto
+	
+
+
+********************************************************************
+
+CS8: Testes exploratórios
+
+problemas encontrados:
+- Os textos do cladograma estão selecionáveis
+- IMSManifest registra atividade como "Título", "Exercício"
+
+
+	
