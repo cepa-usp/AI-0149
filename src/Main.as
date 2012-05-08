@@ -498,7 +498,6 @@
 				image.visible = statusAI.imagens[image.name].visible;
 				image.x = statusAI.imagens[image.name].x;
 				image.y = statusAI.imagens[image.name].y;
-				
 			}
 			
 			for (i = 1; i <= 32; i++) 
@@ -521,8 +520,20 @@
 			var arrayTentativas:Array = String(statusAI.tentativasArray).split(";");
 			for (i = 0; i < arrayTentativas.length; i++) 
 			{
-				//tentativasArray.push(int(arrayTentativas[i]));
 				tentativasArray[i] = int(arrayTentativas[i]);
+				
+				if (tentativasArray[i] == 3) {
+					this["caixa" + String(i)].gotoAndStop(2);
+					this["caixa" + String(i)].enabled = false;
+				}
+			}
+			
+			for (i = 1; i <= 18; i++) {
+				if (dictCaixa[this["caixa" + String(i)]] != undefined) {
+					dictImage[dictCaixa[this["caixa" + String(i)]]].enabled = false;
+					dictCaixa[this["caixa" + String(i)]].mouseEnabled = false;
+					thumbnailDict[dictCaixa[this["caixa" + String(i)]]].mouseEnabled = false;
+				}
 			}
 			
 			movimentos = statusAI.movimentos;
@@ -534,7 +545,7 @@
 			if (statusAI.lastCaixa2 != "null") lastCaixa2 = this[statusAI.lastCaixa2];
 			if (statusAI.lastCaixa3 != "null") lastCaixa3 = this[statusAI.lastCaixa3];
 			if (statusAI.lastCaixa4 != "null") lastCaixa4 = this[statusAI.lastCaixa4];
-			grupo.gotoAndStop(grupoAtual);
+			grupo.gotoAndStop(lastGrupo);
 			setChildIndex(grupo, 1);
 			
 			verifyAICompletion();
@@ -570,13 +581,16 @@
 				this["thumbnail" + String(i)].x = imagePositions[i].x;
 				this["thumbnail" + String(i)].y = imagePositions[i].y;
 				this["imagem" + String(i)].x = -100;
-				this["thumbnail" + String(i)].gotoAndStop(1);
+				this["caixa" + String(i)].gotoAndStop(1);
 				this["imagem" + String(i)].visible = false;
+				this["thumbnail" + String(i)].mouseEnabled = true;
+				this["imagem" + String(i)].mouseEnabled = true;
 			}
 			
 			for (i = 1; i <= 32; i++) {
 				this["caixa" + String(i)].visible = false;
 				this["caixa" + String(i)].enabled = true;
+				this["caixa" + String(i)].gotoAndStop(1);
 				tentativasArray[i] = 0;
 			}
 			
@@ -852,7 +866,7 @@
 		{
 			acertos = 0;
 			//for (var i:int = 1; i <= 7; i++) this["texto" + String(i)].visible = false;
-			for (var i:int = 1; i <= 32; i++) if (dictRespostas[this["caixa" + String(i)]].indexOf(dictCaixa[this["caixa" + String(i)]]) != -1) {
+			for (var i:int = 1; i <= 18; i++) if (dictRespostas[this["caixa" + String(i)]].indexOf(dictCaixa[this["caixa" + String(i)]]) != -1) {
 				acertos++;
 				//if (textDict[this["caixa" + String(i)]] != null) textDict[this["caixa" + String(i)]].visible = true;
 			}
@@ -868,7 +882,7 @@
 			setChildIndex(feedbackErrado, numChildren - 1);
 			
 			if(!completed){
-				score = Math.floor((100 / 32) * acertos);
+				score = Math.floor((100 / 18) * acertos);
 				completed = true;
 				commit();
 			}
